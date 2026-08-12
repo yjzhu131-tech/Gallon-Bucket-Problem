@@ -1,8 +1,9 @@
 # Gallon Bucket Problem
 
-# The objective of this project is to develop a program that can solve the problem of 
-# 2 kids fetching 4 gallons of water from a stream, using only an unmarked 3-gallon bucket, 
-# and an unmarked 5-gallon bucket, in less than 15 steps.
+# The objective of this project is to develop a program that can solve the problem of
+# 2 kids fetching 4 gallons of water from a stream, using only an unmarked 3-gallon bucket,
+# and an unmarked 5-gallon bucket, in less than 15 steps. The final result must have
+# exactly 4 gallons in one bucket and 0 gallons in the other bucket.
 
 from collections import deque
 
@@ -12,6 +13,15 @@ from collections import deque
 # and the 5-gallon bucket has 5 gallons.
 start = (0, 0)
 target = 4
+
+
+def is_goal(state):
+    bucket3, bucket5 = state
+    return (
+        bucket3 == target and bucket5 == 0
+    ) or (
+        bucket5 == target and bucket3 == 0
+    )
 
 
 def next_states(state):
@@ -86,8 +96,8 @@ while queue:
     # Split that current state into the two bucket amounts.
     bucket3, bucket5 = state
 
-    # Stop when either bucket has exactly 4 gallons.
-    if bucket3 == target or bucket5 == target:
+    # Stop when one bucket has exactly 4 gallons and the other bucket is empty.
+    if is_goal(state):
         break
 
     # Try every possible next move from the current state.
